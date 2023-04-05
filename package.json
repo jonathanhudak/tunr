@@ -10,9 +10,13 @@
   },
   "dependencies": {
     "expo": "~48.0.10",
+    "expo-av": "~13.2.1",
+    "expo-permissions": "^14.1.1",
     "expo-status-bar": "~1.4.4",
+    "fft-js": "^0.0.12",
     "react": "18.2.0",
-    "react-native": "0.71.6"
+    "react-native": "0.71.6",
+    "react-native-audio-toolkit": "^1.0.6"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0"

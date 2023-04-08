@@ -74,5 +74,7 @@
 		"text",
 		"track",
 		"width"
-	]
+	],
+	"deno.enable": false,
+	"deno.lint": false
 }

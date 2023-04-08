@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { onMount, onDestroy } from 'svelte';
-	import { findClosestNote, STANDARD_GUITAR_TUNING } from '$lib/notes';
+	import ToneJSNote from '@tonaljs/note';
+	import { findClosestNote, autoCorrelate, STANDARD_GUITAR_TUNING } from '$lib/notes';
 	import type { Note } from '$lib/notes';
 	// Add the NOTES constant here
 
@@ -11,27 +12,58 @@
 
 	onMount(async () => {
 		try {
-			const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-			audioContext = new AudioContext();
-			const source = audioContext.createMediaStreamSource(stream);
-			analyser = audioContext.createAnalyser();
-			source.connect(analyser);
+			const stream = await navigator.mediaDevices
+				.getUserMedia({ audio: true })
+				.then((stream) => {
+					const context = new AudioContext();
+					const source = context.createMediaStreamSource(stream);
+					const analyser = context.createAnalyser();
+					source.connect(analyser);
 
-			const interval = setInterval(() => {
-				const dataArray = new Uint8Array(analyser.frequencyBinCount);
-				analyser.getByteFrequencyData(dataArray);
+					const bufferLength = analyser.fftSize;
+					const dataArray = new Float32Array(bufferLength);
 
-				const maxIndex = dataArray.reduce((iMax, x, i, arr) => (x > arr[iMax] ? i : iMax), 0);
-				const frequency = (maxIndex * audioContext.sampleRate) / (2 * dataArray.length);
+					function update() {
+						analyser.getFloatTimeDomainData(dataArray);
+						const frequency = autoCorrelate(dataArray, context.sampleRate);
 
-				detectedFrequency = frequency;
-				closestNote = findClosestNote(frequency);
-			}, 100);
+						if (frequency !== -1) {
+							console.log('Frequency:', frequency, 'Hz');
+							detectedFrequency = frequency;
+							closestNote = {
+								note: ToneJSNote.fromFreq(frequency),
+								frequency
+							};
+						} else {
+							console.log('Not enough signal');
+						}
 
-			onDestroy(() => {
-				clearInterval(interval);
-				audioContext.close();
-			});
+						requestAnimationFrame(update);
+					}
+
+					update();
+				})
+				.catch((err) => console.error('Error:', err));
+			// audioContext = new AudioContext();
+			// const source = audioContext.createMediaStreamSource(stream);
+			// analyser = audioContext.createAnalyser();
+			// source.connect(analyser);
+
+			// const interval = setInterval(() => {
+			// 	const dataArray = new Uint8Array(analyser.frequencyBinCount);
+			// 	analyser.getByteFrequencyData(dataArray);
+
+			// 	// Convert byte data to float data
+			// 	const floatData = dataArray.map((byte) => byte / 255);
+
+			// 	detectedFrequency = hps(floatData, audioContext.sampleRate);
+			// 	closestNote = findClosestNote(floatData, audioContext.sampleRate);
+			// }, 100);
+
+			// onDestroy(() => {
+			// 	clearInterval(interval);
+			// 	audioContext.close();
+			// });
 		} catch (err) {
 			console.error('Failed to initialize audio:', err);
 		}

@@ -43,3 +43,4 @@ You can preview the production build with `npm run preview`.
 
 * https://github.com/tonaljs/tonal/tree/main/packages/note
 * https://stackoverflow.com/questions/69237143/how-do-i-get-the-audio-frequency-from-my-mic-using-javascript
+* https://github.com/cwilso/PitchDetect

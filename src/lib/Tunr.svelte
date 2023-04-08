@@ -48,20 +48,6 @@
 		}
 	});
 
-	const classifyNote = (guitarNote: Note, detectedNote: Note) => {
-		if (!detectedNote || !detectedNote.frequency) return 'unknown';
-		if (!guitarNote || !guitarNote.frequency) return 'unknown';
-		const diff = guitarNote.frequency - detectedNote?.frequency;
-
-		if (Math.abs(diff) <= 1) {
-			return 'bg-green-500 text-black';
-		} else if (diff < 0) {
-			return 'bg-yellow-300 text-black';
-		} else {
-			return 'bg-orange-300 text-black';
-		}
-	};
-
 	const getStringClass = (guitarNote: Note, detectedNote: Note | null) => {
 		let classes = 'p-4 rounded-lg border-2 border-black-500/50 dark:border-white-500/10';
 
@@ -91,33 +77,10 @@
 	{/if}
 </p>
 
-<ol>
+<ol class="flex flex-col gap-y-2">
 	{#each STANDARD_GUITAR_TUNING as guitarNote}
 		<li class={getStringClass(guitarNote, closestNote)}>
 			{guitarNote.string} ({guitarNote.note})
 		</li>
 	{/each}
 </ol>
-
-<style>
-	li {
-		list-style: none;
-		margin: 8px 0;
-	}
-	.inTune {
-		font-weight: bold;
-		color: green;
-	}
-	.flat {
-		font-weight: bold;
-		color: red;
-	}
-	.sharp {
-		font-weight: bold;
-		color: blue;
-	}
-
-	.active {
-		opacity: 0.6;
-	}
-</style>

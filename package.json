@@ -39,6 +39,8 @@
 	},
 	"type": "module",
 	"dependencies": {
-		"@tonaljs/note": "^4.10.0"
+		"@tonaljs/note": "^4.10.0",
+		"add": "^2.0.6",
+		"vite-plugin-mkcert": "^1.14.0"
 	}
 }

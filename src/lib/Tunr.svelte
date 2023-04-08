@@ -43,26 +43,6 @@
 					update();
 				})
 				.catch((err) => console.error('Error:', err));
-			// audioContext = new AudioContext();
-			// const source = audioContext.createMediaStreamSource(stream);
-			// analyser = audioContext.createAnalyser();
-			// source.connect(analyser);
-
-			// const interval = setInterval(() => {
-			// 	const dataArray = new Uint8Array(analyser.frequencyBinCount);
-			// 	analyser.getByteFrequencyData(dataArray);
-
-			// 	// Convert byte data to float data
-			// 	const floatData = dataArray.map((byte) => byte / 255);
-
-			// 	detectedFrequency = hps(floatData, audioContext.sampleRate);
-			// 	closestNote = findClosestNote(floatData, audioContext.sampleRate);
-			// }, 100);
-
-			// onDestroy(() => {
-			// 	clearInterval(interval);
-			// 	audioContext.close();
-			// });
 		} catch (err) {
 			console.error('Failed to initialize audio:', err);
 		}
@@ -74,32 +54,46 @@
 		const diff = guitarNote.frequency - detectedNote?.frequency;
 
 		if (Math.abs(diff) <= 1) {
-			return 'inTune';
+			return 'bg-green-500 text-black';
 		} else if (diff < 0) {
-			return 'flat';
+			return 'bg-yellow-300 text-black';
 		} else {
-			return 'sharp';
+			return 'bg-orange-300 text-black';
+		}
+	};
+
+	const getStringClass = (guitarNote: Note, detectedNote: Note | null) => {
+		let classes = 'p-4 rounded-lg border-2 border-black-500/50 dark:border-white-500/10';
+
+		if (!detectedNote || !detectedNote.frequency || !guitarNote || !guitarNote.frequency)
+			return classes;
+		if (detectedNote.note !== guitarNote.note) {
+			return classes;
+		}
+		const diff = guitarNote.frequency - detectedNote?.frequency;
+		classes += 'border-black dark:border-white';
+
+		if (Math.abs(diff) <= 1) {
+			return `${classes} bg-green-500 text-black`;
+		} else if (diff < 0) {
+			return `${classes} bg-yellow-300 text-black`;
+		} else {
+			return `${classes} bg-orange-300 text-black`;
 		}
 	};
 </script>
 
-<div style="display: flex; flex-direction: column; align-items: center;">
-	<p>
-		{#if closestNote}
-			Closest Note: {closestNote.note} ({@html closestNote?.frequency?.toFixed(2)} Hz)
-		{:else}
-			No note detected
-		{/if}
-	</p>
-</div>
+<p class:contrast-50={!closestNote}>
+	{#if closestNote}
+		Closest Note: {closestNote.note} ({@html closestNote?.frequency?.toFixed(2)} Hz)
+	{:else}
+		No note detected
+	{/if}
+</p>
 
 <ol>
 	{#each STANDARD_GUITAR_TUNING as guitarNote}
-		<li
-			class={closestNote && closestNote.note === guitarNote.note
-				? classifyNote(guitarNote, closestNote)
-				: ''}
-		>
+		<li class={getStringClass(guitarNote, closestNote)}>
 			{guitarNote.string} ({guitarNote.note})
 		</li>
 	{/each}
@@ -121,5 +115,9 @@
 	.sharp {
 		font-weight: bold;
 		color: blue;
+	}
+
+	.active {
+		opacity: 0.6;
 	}
 </style>

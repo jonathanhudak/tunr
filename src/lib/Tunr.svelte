@@ -3,7 +3,7 @@
 	import ToneJSNote from '@tonaljs/note';
 	import { autoCorrelate, STANDARD_GUITAR_TUNING } from '$lib/notes';
 	import type { Note } from '$lib/notes';
-
+	export let tuning: Note[];
 	let detectedFrequency: number | null = null;
 	let closestNote: Note | null = null;
 	let audioContext: AudioContext;
@@ -69,18 +69,22 @@
 	};
 </script>
 
-<p class:contrast-50={!closestNote}>
-	{#if closestNote}
-		Closest Note: {closestNote.note} ({@html closestNote?.frequency?.toFixed(2)} Hz)
-	{:else}
-		No note detected
-	{/if}
-</p>
+{#if !tuning}
+	<p>Not tuning provided...</p>
+{:else}
+	<p class:contrast-50={!closestNote}>
+		{#if closestNote}
+			Closest Note: {closestNote.note} ({@html closestNote?.frequency?.toFixed(2)} Hz)
+		{:else}
+			No note detected
+		{/if}
+	</p>
 
-<ol class="flex flex-col gap-y-2">
-	{#each STANDARD_GUITAR_TUNING as guitarNote}
-		<li class={getStringClass(guitarNote, closestNote)}>
-			{guitarNote.string} ({guitarNote.note})
-		</li>
-	{/each}
-</ol>
+	<ol class="flex flex-col gap-y-2">
+		{#each tuning as guitarNote}
+			<li class={getStringClass(guitarNote, closestNote)}>
+				{guitarNote.note}
+			</li>
+		{/each}
+	</ol>
+{/if}

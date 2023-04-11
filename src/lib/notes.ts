@@ -13,8 +13,8 @@ for (let octave = 0; octave <= 8; octave++) {
 }
 
 export interface Note {
-	note: string;
-	frequency: number;
+	note?: string;
+	frequency?: number;
 	string?: string;
 }
 
@@ -53,7 +53,7 @@ function convertToNotes(note: { note: string; string: string }): Note {
 	return { ...note, frequency: foundNote?.frequency };
 }
 
-export const STANDARD_GUITAR_TUNING = [
+export const STANDARD_GUITAR_TUNING: Note[] = [
 	{ note: 'E3', string: '6th' },
 	{ note: 'A2', string: '5th' },
 	{ note: 'D3', string: '4th' },
@@ -61,6 +61,13 @@ export const STANDARD_GUITAR_TUNING = [
 	{ note: 'B3', string: '2nd' },
 	{ note: 'E4', string: '1st' }
 ].map(convertToNotes);
+
+export const buildTuning = (tuning: string[]) => {
+	return tuning.map((note, index) => {
+		const foundNote = NOTES.find((n) => n.note === note);
+		return { ...foundNote, string: `String ${index + 1}` };
+	});
+};
 
 // Adapted from https://github.com/cwilso/PitchDetect/blob/main/js/pitchdetect.js
 // Wow it works!

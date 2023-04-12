@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { GUITAR_TUNINGS, UKELELE_TUNINGS } from '$lib/tunings';
+	import TunrForm from '$lib/TunrForm.svelte';
 </script>
 
 <section class="p-3">
@@ -21,4 +22,8 @@
 			</li>
 		{/each}
 	</ul>
+</section>
+<section class="p-3">
+	<h2>Create your own tuning</h2>
+	<TunrForm />
 </section>

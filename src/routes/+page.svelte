@@ -1,7 +1,24 @@
 <script lang="ts">
-	import GuitarTuner from '$lib/Tunr.svelte';
+	import { GUITAR_TUNINGS, UKELELE_TUNINGS } from '$lib/tunings';
 </script>
 
-<div class="p-3">
-	<a href="/tuning/E3A2D3G3B3E4">Standard Tuning: E3A2D3G3B3E4</a>
-</div>
+<section class="p-3">
+	<h2>Guitar Tuning</h2>
+	<ul>
+		{#each GUITAR_TUNINGS as tuning}
+			<li>
+				<a href={tuning.url}>{tuning.name}</a>
+			</li>
+		{/each}
+	</ul>
+</section>
+<section class="p-3">
+	<h2>Ukelele Tuning</h2>
+	<ul>
+		{#each UKELELE_TUNINGS as tuning}
+			<li>
+				<a href={tuning.url}>{tuning.name}</a>
+			</li>
+		{/each}
+	</ul>
+</section>

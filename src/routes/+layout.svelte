@@ -7,7 +7,7 @@
 	import '../app.postcss';
 </script>
 
-<div class="container h-full mx-auto">
+<div class="container h-full mx-auto max-w-2xl">
 	<nav>
 		<a href="/">Tunr</a>
 	</nav>

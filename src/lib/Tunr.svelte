@@ -9,9 +9,24 @@
 	let audioContext: AudioContext;
 	let analyser: AnalyserNode;
 
+	let tunedStrings: boolean[] = Array(tuning.length).fill(false);
+
+	$: {
+		if (closestNote && detectedFrequency) {
+			for (let i = 0; i < tuning.length; i++) {
+				if (tuning[i].note === closestNote.note) {
+					if (typeof tuning[i] && tuning[i].frequency) {
+						const diff = (tuning[i].frequency as number) - detectedFrequency;
+						tunedStrings[i] = Math.abs(diff) <= 1;
+					}
+				}
+			}
+		}
+	}
+
 	onMount(async () => {
 		try {
-			const stream = await navigator.mediaDevices
+			await navigator.mediaDevices
 				.getUserMedia({ audio: true })
 				.then((stream) => {
 					const context = new AudioContext();
@@ -27,7 +42,6 @@
 						const frequency = autoCorrelate(dataArray, context.sampleRate);
 
 						if (frequency !== -1) {
-							console.log('Frequency:', frequency, 'Hz');
 							detectedFrequency = frequency;
 							closestNote = {
 								note: ToneJSNote.fromFreq(frequency),
@@ -60,7 +74,7 @@
 		classes += 'border-black dark:border-white';
 
 		if (Math.abs(diff) <= 1) {
-			return `${classes} bg-green-500 text-black`;
+			return `${classes} in-tune bg-green-500 text-black`;
 		} else if (diff < 0) {
 			return `${classes} bg-yellow-300 text-black`;
 		} else {
@@ -81,9 +95,10 @@
 	</p>
 
 	<ol class="flex flex-col gap-y-2">
-		{#each tuning as guitarNote}
+		{#each tuning as guitarNote, index}
 			<li class={getStringClass(guitarNote, closestNote)}>
 				{guitarNote.note}
+				{tunedStrings[index] ? '✓' : ''}
 			</li>
 		{/each}
 	</ol>

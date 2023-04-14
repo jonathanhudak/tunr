@@ -1,13 +1,12 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
 	import ToneJSNote from '@tonaljs/note';
-	import { autoCorrelate, STANDARD_GUITAR_TUNING } from '$lib/notes';
+	import { Synth, start } from 'tone';
+	import { autoCorrelate } from '$lib/notes';
 	import type { Note } from '$lib/notes';
 	export let tuning: Note[];
 	let detectedFrequency: number | null = null;
 	let closestNote: Note | null = null;
-	let audioContext: AudioContext;
-	let analyser: AnalyserNode;
 
 	let tunedStrings: boolean[] = Array(tuning.length).fill(false);
 
@@ -81,6 +80,13 @@
 			return `${classes} bg-orange-300 text-black`;
 		}
 	};
+
+	async function playFrequency(frequency: number) {
+		await start();
+		const synth = new Synth().toDestination();
+		const note = ToneJSNote.fromFreq(frequency);
+		synth.triggerAttackRelease(note, '8n');
+	}
 </script>
 
 {#if !tuning}
@@ -96,9 +102,15 @@
 
 	<ol class="flex flex-col gap-y-2">
 		{#each tuning as guitarNote, index}
-			<li class={getStringClass(guitarNote, closestNote)}>
+			<li class={`flex justify-between ${getStringClass(guitarNote, closestNote)}`}>
 				{guitarNote.note}
 				{tunedStrings[index] ? '✓' : ''}
+				<button
+					class="ml-2 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+					on:click={() => playFrequency(guitarNote.frequency)}
+				>
+					👂
+				</button>
 			</li>
 		{/each}
 	</ol>

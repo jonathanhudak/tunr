@@ -5,16 +5,20 @@ export const NOTES: Note[] = [];
 
 for (let octave = 0; octave <= 8; octave++) {
 	for (let i = 0; i < 12; i++) {
-		// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-		// @ts-ignore
-		const note = Note.get(Note.fromFreq(Note.freq(`C${octave}`) * Math.pow(2, i / 12)));
-		NOTES.push({ note: note.name, frequency: note.freq! });
+		const freq = Note.freq(`C${octave}`);
+		let note;
+		if (freq) {
+			note = Note.get(Note.fromFreq(freq * Math.pow(2, i / 12)));
+		}
+		if (note && note.freq) {
+			NOTES.push({ note: note.name, frequency: note.freq });
+		}
 	}
 }
 
 export interface Note {
-	note?: string;
-	frequency?: number;
+	note: string;
+	frequency: number;
 	string?: string;
 }
 
@@ -50,7 +54,10 @@ export const findClosestNote = (frequencyData: number[], sampleRate: number) => 
 
 function convertToNotes(note: { note: string; string: string }): Note {
 	const foundNote = NOTES.find((n) => n.note === note.note);
-	return { ...note, frequency: foundNote?.frequency };
+	console.log('NOTES', NOTES);
+	if (!foundNote) throw new Error(`Note ${note.note} not found`);
+
+	return { ...note, frequency: foundNote.frequency };
 }
 
 export const STANDARD_GUITAR_TUNING: Note[] = [

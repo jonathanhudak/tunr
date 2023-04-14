@@ -1,5 +1,5 @@
 export const GUITAR_TUNINGS = [
-	{ url: '/tuning/E3A2D3G3B3E4', name: 'Standard Tuning - EADGBE' },
+	{ url: '/tuning/E2A2D3G3B3E4', name: 'Standard Tuning - EADGBE' },
 	{ url: '/tuning/D2A2D3G3B3E4', name: 'Drop D Tuning - DADGBE' },
 	{ url: '/tuning/C2G2C3F3C4E4', name: 'Nick Drake Tuning - CGCFCE' },
 	{ url: '/tuning/D3G2D3G3B3D4', name: 'Double Drop D Tuning - DGDGBD' },

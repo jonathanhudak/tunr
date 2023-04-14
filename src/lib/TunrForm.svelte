@@ -10,9 +10,15 @@
 	}
 </script>
 
-<form class="grid grid-cols-7" on:submit|preventDefault={onSubmit}>
+<form class="grid gap-2 mb-4" on:submit|preventDefault={onSubmit}>
 	{#each tuning as note, i}
-		<input type="text" list="notes" bind:value={tuning[i]} placeholder="Note" />
+		<input
+			class="dark:bg-black"
+			type="text"
+			list="notes"
+			bind:value={tuning[i]}
+			placeholder="Note"
+		/>
 	{/each}
 	<datalist id="notes">
 		{#each notes as note}
@@ -21,5 +27,9 @@
 			{/each}
 		{/each}
 	</datalist>
-	<button type="submit">Submit</button>
+	<button
+		type="submit"
+		class="bg-primary-900 hover:bg-primary-700 text-white font-bold py-2 px-4 rounded"
+		>Submit</button
+	>
 </form>

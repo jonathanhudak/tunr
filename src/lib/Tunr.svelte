@@ -103,11 +103,16 @@
 	<ol class="flex flex-col gap-y-2">
 		{#each tuning as guitarNote, index}
 			<li class={`flex justify-between ${getStringClass(guitarNote, closestNote)}`}>
-				{guitarNote.note}
-				{tunedStrings[index] ? '✓' : ''}
+				<span class="text-3xl">
+					{guitarNote.note}
+				</span>
+				<span class="text-2xl">
+					{tunedStrings[index] ? '✓' : ''}
+				</span>
 				<button
 					class="ml-2 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
 					on:click={() => playFrequency(guitarNote.frequency)}
+					aria-label={`Listen to ${guitarNote.note}`}
 				>
 					👂
 				</button>

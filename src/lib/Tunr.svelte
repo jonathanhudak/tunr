@@ -110,7 +110,7 @@
 					{tunedStrings[index] ? '✓' : ''}
 				</span>
 				<button
-					class="ml-2 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+					class="bg-secondary-500 hover:bg-secondary-300 text-surface-900 font-bold py-2 px-4 rounded"
 					on:click={() => playFrequency(guitarNote.frequency)}
 					aria-label={`Listen to ${guitarNote.note}`}
 				>

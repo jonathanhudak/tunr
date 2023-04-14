@@ -29,7 +29,7 @@
 	</datalist>
 	<button
 		type="submit"
-		class="bg-primary-900 hover:bg-primary-700 text-white font-bold py-2 px-4 rounded"
+		class="bg-primary-500 hover:bg-primary-300 text-surface-900 font-bold py-2 px-4 rounded"
 		>Submit</button
 	>
 </form>

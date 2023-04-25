@@ -13,4 +13,11 @@
 	</nav>
 
 	<slot />
+	<footer class="flex justify-between p-3">
+		<span>Made with 🤘🏻 by <a href="https://hudak.codes">hudak.codes</a></span>
+		<span
+			>Source:&nbsp;<a href="https://github.com/jonathanhudak/tunr">github.com/jonathanhudak/tunr</a
+			></span
+		>
+	</footer>
 </div>

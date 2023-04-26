@@ -22,5 +22,5 @@ export const UKELELE_TUNINGS = [
 ];
 
 export const MISC_INSTRUMENTS = [
-	{ url: '/tuning/E5A4D4G3', name: 'Violin - EADG',
+	{ url: '/tuning/E5A4D4G3', name: 'Violin - EADG' },
 ];

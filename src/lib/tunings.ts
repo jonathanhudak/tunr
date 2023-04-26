@@ -20,3 +20,7 @@ export const UKELELE_TUNINGS = [
 	{ url: '/tuning/A4D4F%234B4', name: 'English - ADF#B' },
 	{ url: '/tuning/A4D4F%234B4', name: 'Canadian - ADF#B' }
 ];
+
+export const MISC_INSTRUMENTS = [
+	{ url: '/tuning/E5A4D4G3', name: 'Violin - EADG',
+];

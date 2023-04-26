@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { GUITAR_TUNINGS, UKELELE_TUNINGS } from '$lib/tunings';
+	import { GUITAR_TUNINGS, UKELELE_TUNINGS, MISC_INSTRUMENTS } from '$lib/tunings';
 	import TunrForm from '$lib/TunrForm.svelte';
 </script>
 
@@ -17,6 +17,16 @@
 	<h2>Ukelele Tuning</h2>
 	<ul>
 		{#each UKELELE_TUNINGS as tuning}
+			<li>
+				<a href={tuning.url}>{tuning.name}</a>
+			</li>
+		{/each}
+	</ul>
+</section>
+<section class="p-3">
+	<h2>Other Instruments</h2>
+	<ul>
+		{#each MISC_INSTRUMENTS as tuning}
 			<li>
 				<a href={tuning.url}>{tuning.name}</a>
 			</li>
